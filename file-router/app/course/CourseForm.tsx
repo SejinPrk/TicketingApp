@@ -4,11 +4,11 @@ const CourseForm = () => {
   function onSubmit() {
     console.log("Hello World.");
   }
-  
+
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={onSubmit} className="flex flex-col p-12 gap-4">
       <input type="text" name="name" className="border" />
-      <button type="submit">Submit</button>
+      <button type="submit" className = "btn">Submit</button>
     </form>
   );
 };
