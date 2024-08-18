@@ -1,5 +1,5 @@
 "use client"
-import React from 'react'
+import React, { useState } from 'react'
 import { Form, FormField, FormLabel, FormControl, FormItem } from './ui/form';
 import { ticketSchema } from '@/ValidationSchemas/ticket';
 import { z } from 'zod';
@@ -9,17 +9,38 @@ import { Input } from './ui/input';
 import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from './ui/select';
+import { Button } from './ui/button';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
 type TicketFormData = z.infer<typeof ticketSchema>
 
 const TicketForm = () => {
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState("");
+  const router = useRouter();
+
+
   const form = useForm<TicketFormData>({
-    resolver: zodResolver(ticketSchema)
+    resolver: zodResolver(ticketSchema),
   });
 
   async function onSubmit(values: z.infer<typeof ticketSchema>) {
-    console.log(values);
+    try {
+      setIsSubmitting(true);
+      setError("");
+
+      await axios.post("/api/tickets", values);
+      setIsSubmitting(false);
+
+      router.push("/tickets");
+      // router.refresh(); // 더 이상 지원하지 않음
+    } catch (error) {
+      console.log(error);
+      setError("Unknown Error Occured.");
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -39,7 +60,7 @@ const TicketForm = () => {
             )}
           />
           <Controller
-            name="desciption"
+            name="description"
             control={form.control} 
             render={({field}) => (
               <SimpleMDE placeholder="Description" {...field} />
@@ -83,6 +104,9 @@ const TicketForm = () => {
               )} 
             />
           </div>
+          <Button type='submit' disabled={isSubmitting}>
+            Submit
+          </Button>
         </form>
       </Form>
     </div>
