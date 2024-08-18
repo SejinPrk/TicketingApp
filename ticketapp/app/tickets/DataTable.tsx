@@ -1,6 +1,6 @@
 import TicketStatusBadge from '@/components/TicketStatusBadge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import TicketPriority from '@/components/ui/TicketPriority';
+import TicketPriority from '@/components/TicketPriority';
 import { Ticket } from '@prisma/client'
 import React from 'react'
 
