@@ -11,7 +11,7 @@ export async function PATCH(request: NextRequest, { params }: Props) {
   const validation = ticketSchema.safeParse(body);
 
   if (!validation.success) {
-    return NextResponse.json(validation.error.format(), { status: 400});
+    return NextResponse.json(validation.error.format(), { status: 404});
   }
 
   const ticket = await prisma.ticket.findUnique({
@@ -19,7 +19,7 @@ export async function PATCH(request: NextRequest, { params }: Props) {
   });
 
   if(!ticket) {
-    return NextResponse.json({error: "Ticket Not Found"}, {status: 400});
+    return NextResponse.json({ error: "Ticket Not Found" }, {status: 404});
   }
 
   const updateTicket = await prisma.ticket.update({
@@ -30,4 +30,21 @@ export async function PATCH(request: NextRequest, { params }: Props) {
   });
 
   return NextResponse.json(updateTicket);
+}
+
+export async function DELETE(request: NextRequest, { params }: Props) {
+
+  const ticket = await prisma.ticket.findUnique({
+    where: {id: parseInt(params.id)}, 
+  });
+
+  if(!ticket) {
+    return NextResponse.json({ error: "Ticket Not Found" }, {status: 404});
+  }
+
+  await prisma.ticket.delete ({
+    where: { id: ticket.id },
+  });
+
+  return NextResponse.json({message: "Ticket Deleted"});
 }
