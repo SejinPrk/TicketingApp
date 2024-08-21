@@ -9,7 +9,6 @@ import {
   SelectTrigger, 
   SelectValue 
 } from './ui/select';
-import { stat } from 'fs';
 
 const statuses: {label: string; value?: string}[] = [
   { label: "Open / Started" },
@@ -34,7 +33,7 @@ const StatusFilter = () => {
         router.push(`/tickets${query}`);
       }}
     >
-      <SelectTrigger>
+      <SelectTrigger className='w-[200px]'>
         <SelectValue placeholder="Filter by Status..." />
       </SelectTrigger>
       <SelectContent>
