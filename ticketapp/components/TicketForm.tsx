@@ -42,7 +42,7 @@ const TicketForm = ({ ticket }: Props) => {
       }
       setIsSubmitting(false);
       router.push("/tickets");
-      // router.refresh(); // 더 이상 지원하지 않음
+      router.refresh(); // 더 이상 지원하지 않음
     } catch (error) {
       console.log(error);
       setError("Unknown Error Occured.");
@@ -132,6 +132,7 @@ const TicketForm = ({ ticket }: Props) => {
           </Button>
         </form>
       </Form>
+      <p className='text-destructive'>{error}</p>
     </div>
   )
 }
