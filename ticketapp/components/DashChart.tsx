@@ -5,7 +5,7 @@ const DashChart = () => {
     <div>
       DashChart
     </div>
-  )
-}
+  );
+};
 
 export default DashChart
